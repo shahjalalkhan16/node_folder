@@ -37,14 +37,26 @@ app.get('/users/:id', (req, res) => {
 
 app.put('/users/:id', (req, res) => {
     const id = req.params.id
-    const user = user.find((u) => u.id == id)
+    const body = req.body
+    const user = users.find((u) => u.id == id)
     if (user) {
-        user.fname = 'Hakim'
-        user.lname = 'Mia'
+        user.fname = body.fname
+        user.lname = body.lname
         res.json(user)
     } else {
         res.status(404).json({ message: 'User not found' })
 
+    }
+})
+
+app.delete('/users/:id', (req, res) => {
+    const id = req.params.id
+    const userIndex = users.findIndex((u) => u.id == id)
+    if (userIndex) {
+        users.splice(userIndex, 1)
+        res.json(users)
+    } else {
+        res.status(404).json({ message: 'User not found' })
     }
 })
 
